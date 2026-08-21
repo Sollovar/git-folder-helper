@@ -222,6 +222,8 @@ export default function KLineChartPanel({ symbol }: { symbol: string }) {
   const [interval, setIntervalValue] = useState<Interval>("1d");
   const [candleType, setCandleType] = useState<CandleType>("candle_solid");
   const [source, setSource] = useSource();
+  const [sourceOpen, setSourceOpen] = useState(false);
+
 
   const [sheet, setSheet] = useState<null | "interval" | "type" | "indicators">(null);
   const [mainOn, setMainOn] = useState<string[]>(["MA"]);
