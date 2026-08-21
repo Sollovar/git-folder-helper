@@ -16,16 +16,19 @@ import { DexTerminal } from "@/components/dex/DexTerminal";
 import { OrderTypeSheet } from "@/components/OrderTypeSheet";
 import { TickSizeSheet } from "@/components/TickSizeSheet";
 import { ExpirySheet } from "@/components/ExpirySheet";
+import { LiveChart } from "@/components/LiveChart";
 import {
   ChevronDown,
   Star,
   LineChart,
+  CandlestickChart,
   Menu,
   Plus,
   History,
   Link2,
   Search,
 } from "lucide-react";
+
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -216,7 +219,9 @@ function Index() {
 function MobileTrade() {
   const [pair, setPair] = usePair();
   const [selectorOpen, setSelectorOpen] = useState(false);
+  const [inlineChart, setInlineChart] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
+
   const [tpsl, setTpsl] = useState(false);
   const [expiry, setExpiry] = useState("5m");
   const [expiryOpen, setExpiryOpen] = useState(false);
@@ -402,11 +407,27 @@ function MobileTrade() {
 
           <div className="ml-auto flex items-center gap-4">
             <Star className="size-5 text-muted-foreground" />
+            <button
+              onClick={() => setInlineChart((v) => !v)}
+              aria-label={inlineChart ? "Hide chart" : "Show chart"}
+              aria-pressed={inlineChart}
+            >
+              <CandlestickChart
+                className={`size-5 ${inlineChart ? "text-primary" : "text-muted-foreground"}`}
+              />
+            </button>
             <Link to="/chart" aria-label="Open chart">
               <LineChart className="size-5 text-muted-foreground" />
             </Link>
           </div>
         </div>
+
+        {inlineChart && (
+          <div className="mt-1 border-b border-border pb-2">
+            <LiveChart symbol={pair} />
+          </div>
+        )}
+
 
         <div className="mt-3 grid grid-cols-[1fr_1.05fr] gap-3">
           {/* Left: order book */}
