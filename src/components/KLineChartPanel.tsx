@@ -446,10 +446,15 @@ export default function KLineChartPanel({ symbol }: { symbol: string }) {
           <Camera className="size-[18px] text-muted-foreground" />
         </button>
         <button
-          onClick={toggleFullscreen}
-          aria-label="Toggle full view"
-          className="ml-auto px-1.5 py-1"
+          onClick={() => setSourceOpen((o) => !o)}
+          aria-label="Chart data source"
+          aria-expanded={sourceOpen}
+          className="ml-auto flex shrink-0 items-center gap-1 rounded-md bg-secondary px-2 py-1 text-xs font-medium"
         >
+          {SOURCE_LABELS[source]}
+          <ChevronDown className="size-3.5 text-muted-foreground" />
+        </button>
+        <button onClick={toggleFullscreen} aria-label="Toggle full view" className="px-1.5 py-1">
           {fullscreen ? (
             <Minimize2 className="size-[18px] text-muted-foreground" />
           ) : (
@@ -457,6 +462,34 @@ export default function KLineChartPanel({ symbol }: { symbol: string }) {
           )}
         </button>
       </div>
+
+      {sourceOpen && (
+        <>
+          <button
+            aria-label="Close data source menu"
+            className="fixed inset-0 z-30 cursor-default"
+            onClick={() => setSourceOpen(false)}
+          />
+          <div className="absolute right-8 top-9 z-40 w-40 overflow-hidden rounded-xl bg-card shadow-[0_12px_40px_-8px_rgba(0,0,0,0.45)] ring-1 ring-border">
+            {(["aster", "kucoin"] as MarketSource[]).map((s) => (
+              <button
+                key={s}
+                onClick={() => {
+                  setSource(s);
+                  setSourceOpen(false);
+                }}
+                className="flex w-full items-center justify-between px-3 py-3 text-left text-sm"
+              >
+                <span className={source === s ? "text-foreground" : "text-muted-foreground"}>
+                  {SOURCE_LABELS[s]}
+                </span>
+                {source === s && <Check className="size-4 text-foreground" />}
+              </button>
+            ))}
+          </div>
+        </>
+      )}
+
 
       {/* chart */}
       <div className="relative">
