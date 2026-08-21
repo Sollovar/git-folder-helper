@@ -61,7 +61,7 @@ export function CandleCountdown({
 
   return (
     <div
-      className={`pointer-events-none absolute z-10 flex items-center gap-2 rounded-md border border-border bg-card/95 px-2 py-1 font-medium tabular-nums tracking-tight text-[11.5px] text-muted-foreground shadow-sm ${className ?? ""}`}
+      className={`pointer-events-none absolute z-10 flex items-center gap-2 font-medium tabular-nums tracking-tight text-[11.5px] text-muted-foreground ${className ?? ""}`}
     >
       <span className="text-foreground">{remaining(interval, now)}</span>
       <span className="h-3 w-px bg-border" />
