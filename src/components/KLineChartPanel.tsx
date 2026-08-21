@@ -395,36 +395,8 @@ export default function KLineChartPanel({ symbol }: { symbol: string }) {
 
   return (
     <div ref={wrapperRef} className="mt-2 bg-card">
-      {/* data source switch */}
-      <div className="flex items-center justify-between gap-2 pb-2">
-        <div
-          role="tablist"
-          aria-label="Chart data source"
-          className="relative flex w-full max-w-[220px] rounded-full bg-secondary p-0.5"
-        >
-          <span
-            aria-hidden
-            className="absolute inset-y-0.5 left-0.5 w-[calc(50%-2px)] rounded-full bg-card shadow-sm transition-transform duration-300 ease-out"
-            style={{ transform: source === "kucoin" ? "translateX(100%)" : "translateX(0)" }}
-          />
-          {(["aster", "kucoin"] as MarketSource[]).map((s) => (
-            <button
-              key={s}
-              role="tab"
-              aria-selected={source === s}
-              onClick={() => setSource(s)}
-              className={`relative z-10 flex-1 rounded-full py-1.5 text-xs font-medium transition-colors ${
-                source === s ? "text-foreground" : "text-muted-foreground"
-              }`}
-            >
-              {SOURCE_LABELS[s]}
-            </button>
-          ))}
-        </div>
-        <span className="shrink-0 text-[11px] text-muted-foreground">
-          {source === "aster" ? "Our exchange" : "External feed"}
-        </span>
-      </div>
+
+
 
       {/* toolbar */}
       <div className="flex items-center gap-1 overflow-x-auto pb-2 text-sm">
