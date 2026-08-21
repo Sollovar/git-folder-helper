@@ -394,7 +394,8 @@ export default function KLineChartPanel({ symbol }: { symbol: string }) {
   };
 
   return (
-    <div ref={wrapperRef} className="mt-2 bg-card">
+    <div ref={wrapperRef} className="relative mt-2 bg-card">
+
 
 
 
