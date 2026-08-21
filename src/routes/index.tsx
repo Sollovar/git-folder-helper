@@ -361,7 +361,10 @@ function MobileTrade() {
 
 
   return (
-    <div className="min-h-screen bg-background p-2 pb-24 text-foreground">
+    <div className="relative min-h-screen bg-background p-2 pb-24 text-foreground">
+      <div className="absolute inset-0 opacity-[0.06]">
+        <GlyphMatrix cellSize={13} mutationRate={0.04} interval={100} fadeBottom={0.55} />
+      </div>
       <MarketSelector
         open={selectorOpen}
         onClose={() => setSelectorOpen(false)}
