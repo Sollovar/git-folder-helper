@@ -189,8 +189,15 @@ function buildStyles(t: ReturnType<typeof readTheme>, candleType: CandleType): D
       },
       lastValueMark: { show: false },
     },
-    xAxis: axis,
+    xAxis: {
+      ...axis,
+      size: "auto",
+      axisLine: { ...axis.axisLine, show: false },
+      tickLine: { ...axis.tickLine, show: false, length: 0 },
+      tickText: { ...axis.tickText, marginStart: 0, marginEnd: 0 },
+    },
     yAxis: axis,
+
     crosshair: {
       horizontal: {
         line: { color: t.muted, style: "dashed", dashedValue: [4, 3], size: 1 },
