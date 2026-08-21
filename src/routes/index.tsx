@@ -17,6 +17,7 @@ import { OrderTypeSheet } from "@/components/OrderTypeSheet";
 import { TickSizeSheet } from "@/components/TickSizeSheet";
 import { ExpirySheet } from "@/components/ExpirySheet";
 import { LiveChart } from "@/components/LiveChart";
+import { GlyphMatrix } from "@/components/GlyphMatrix";
 import {
   ChevronDown,
   Star,
