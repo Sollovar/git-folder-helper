@@ -189,8 +189,15 @@ function buildStyles(t: ReturnType<typeof readTheme>, candleType: CandleType): D
       },
       lastValueMark: { show: false },
     },
-    xAxis: axis,
+    xAxis: {
+      ...axis,
+      size: "auto",
+      axisLine: { ...axis.axisLine, show: false },
+      tickLine: { ...axis.tickLine, show: false, length: 0 },
+      tickText: { ...axis.tickText, marginStart: 0, marginEnd: 0 },
+    },
     yAxis: axis,
+
     crosshair: {
       horizontal: {
         line: { color: t.muted, style: "dashed", dashedValue: [4, 3], size: 1 },
@@ -215,6 +222,8 @@ export default function KLineChartPanel({ symbol }: { symbol: string }) {
   const [interval, setIntervalValue] = useState<Interval>("1d");
   const [candleType, setCandleType] = useState<CandleType>("candle_solid");
   const [source, setSource] = useSource();
+  const [sourceOpen, setSourceOpen] = useState(false);
+
 
   const [sheet, setSheet] = useState<null | "interval" | "type" | "indicators">(null);
   const [mainOn, setMainOn] = useState<string[]>(["MA"]);
@@ -387,37 +396,10 @@ export default function KLineChartPanel({ symbol }: { symbol: string }) {
   };
 
   return (
-    <div ref={wrapperRef} className="mt-2 bg-card">
-      {/* data source switch */}
-      <div className="flex items-center justify-between gap-2 pb-2">
-        <div
-          role="tablist"
-          aria-label="Chart data source"
-          className="relative flex w-full max-w-[220px] rounded-full bg-secondary p-0.5"
-        >
-          <span
-            aria-hidden
-            className="absolute inset-y-0.5 left-0.5 w-[calc(50%-2px)] rounded-full bg-card shadow-sm transition-transform duration-300 ease-out"
-            style={{ transform: source === "kucoin" ? "translateX(100%)" : "translateX(0)" }}
-          />
-          {(["aster", "kucoin"] as MarketSource[]).map((s) => (
-            <button
-              key={s}
-              role="tab"
-              aria-selected={source === s}
-              onClick={() => setSource(s)}
-              className={`relative z-10 flex-1 rounded-full py-1.5 text-xs font-medium transition-colors ${
-                source === s ? "text-foreground" : "text-muted-foreground"
-              }`}
-            >
-              {SOURCE_LABELS[s]}
-            </button>
-          ))}
-        </div>
-        <span className="shrink-0 text-[11px] text-muted-foreground">
-          {source === "aster" ? "Our exchange" : "External feed"}
-        </span>
-      </div>
+    <div ref={wrapperRef} className="relative mt-2 bg-card">
+
+
+
 
       {/* toolbar */}
       <div className="flex items-center gap-1 overflow-x-auto pb-2 text-sm">
@@ -467,10 +449,15 @@ export default function KLineChartPanel({ symbol }: { symbol: string }) {
           <Camera className="size-[18px] text-muted-foreground" />
         </button>
         <button
-          onClick={toggleFullscreen}
-          aria-label="Toggle full view"
-          className="ml-auto px-1.5 py-1"
+          onClick={() => setSourceOpen((o) => !o)}
+          aria-label="Chart data source"
+          aria-expanded={sourceOpen}
+          className="ml-auto flex shrink-0 items-center gap-1 rounded-md bg-secondary px-2 py-1 text-xs font-medium"
         >
+          {SOURCE_LABELS[source]}
+          <ChevronDown className="size-3.5 text-muted-foreground" />
+        </button>
+        <button onClick={toggleFullscreen} aria-label="Toggle full view" className="px-1.5 py-1">
           {fullscreen ? (
             <Minimize2 className="size-[18px] text-muted-foreground" />
           ) : (
@@ -478,6 +465,34 @@ export default function KLineChartPanel({ symbol }: { symbol: string }) {
           )}
         </button>
       </div>
+
+      {sourceOpen && (
+        <>
+          <button
+            aria-label="Close data source menu"
+            className="fixed inset-0 z-30 cursor-default"
+            onClick={() => setSourceOpen(false)}
+          />
+          <div className="absolute right-8 top-9 z-40 w-40 overflow-hidden rounded-xl bg-card shadow-[0_12px_40px_-8px_rgba(0,0,0,0.45)] ring-1 ring-border">
+            {(["aster", "kucoin"] as MarketSource[]).map((s) => (
+              <button
+                key={s}
+                onClick={() => {
+                  setSource(s);
+                  setSourceOpen(false);
+                }}
+                className="flex w-full items-center justify-between px-3 py-3 text-left text-sm"
+              >
+                <span className={source === s ? "text-foreground" : "text-muted-foreground"}>
+                  {SOURCE_LABELS[s]}
+                </span>
+                {source === s && <Check className="size-4 text-foreground" />}
+              </button>
+            ))}
+          </div>
+        </>
+      )}
+
 
       {/* chart */}
       <div className="relative">
