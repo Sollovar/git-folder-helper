@@ -214,7 +214,18 @@ function Index() {
   }, []);
 
   if (desktop === null) return <div className="min-h-screen bg-background" />;
-  return desktop ? <DexTerminal /> : <MobileTrade />;
+  return desktop ? (
+    <div className="relative h-screen overflow-hidden">
+      <div className="absolute inset-0 opacity-[0.04]">
+        <GlyphMatrix cellSize={16} mutationRate={0.03} interval={120} fadeBottom={0.5} />
+      </div>
+      <div className="relative z-10 h-full">
+        <DexTerminal />
+      </div>
+    </div>
+  ) : (
+    <MobileTrade />
+  );
 }
 
 function MobileTrade() {
