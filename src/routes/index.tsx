@@ -17,7 +17,6 @@ import { OrderTypeSheet } from "@/components/OrderTypeSheet";
 import { TickSizeSheet } from "@/components/TickSizeSheet";
 import { ExpirySheet } from "@/components/ExpirySheet";
 import { LiveChart } from "@/components/LiveChart";
-import { GlyphMatrix } from "@/components/GlyphMatrix";
 import {
   ChevronDown,
   Star,
@@ -214,18 +213,7 @@ function Index() {
   }, []);
 
   if (desktop === null) return <div className="min-h-screen bg-background" />;
-  return desktop ? (
-    <div className="relative h-screen overflow-hidden">
-      <div className="absolute inset-0 opacity-[0.04]">
-        <GlyphMatrix cellSize={16} mutationRate={0.03} interval={120} fadeBottom={0.5} />
-      </div>
-      <div className="relative z-10 h-full">
-        <DexTerminal />
-      </div>
-    </div>
-  ) : (
-    <MobileTrade />
-  );
+  return desktop ? <DexTerminal /> : <MobileTrade />;
 }
 
 function MobileTrade() {
@@ -361,10 +349,7 @@ function MobileTrade() {
 
 
   return (
-    <div className="relative min-h-screen bg-background p-2 pb-24 text-foreground">
-      <div className="absolute inset-0 opacity-[0.06]">
-        <GlyphMatrix cellSize={13} mutationRate={0.04} interval={100} fadeBottom={0.55} />
-      </div>
+    <div className="min-h-screen bg-background p-2 pb-24 text-foreground">
       <MarketSelector
         open={selectorOpen}
         onClose={() => setSelectorOpen(false)}
